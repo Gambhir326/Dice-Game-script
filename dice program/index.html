@@ -44,7 +44,6 @@
             font-size: 90px;
             display: inline-block;
             user-select: none;
-            transition: transform 0.15s ease-in-out;
         }
 
         .result {
@@ -93,8 +92,36 @@
     </div>
 
     <div class="result" id="result">Click "Roll Dice" to start the game!</div>
-    <button onclick="rollDice()">Roll Dice</button>
+    <button type="button" id="rollBtn">Roll Dice</button>
 
-    <script src="main.js"></script>
+    <script>
+        function getDiceEmoji(number) {
+            const diceEmojis = ["🎲", "⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+            return diceEmojis[number];
+        }
+
+        function rollDice() {
+            const player1Roll = Math.floor(Math.random() * 6) + 1;
+            const player2Roll = Math.floor(Math.random() * 6) + 1;
+
+            const p1Element = document.getElementById('player1Dice');
+            const p2Element = document.getElementById('player2Dice');
+            const resultElement = document.getElementById('result');
+
+            p1Element.textContent = getDiceEmoji(player1Roll);
+            p2Element.textContent = getDiceEmoji(player2Roll);
+
+            if (player1Roll > player2Roll) {
+                resultElement.textContent = "Player 1 Wins! 🎉";
+            } else if (player2Roll > player1Roll) {
+                resultElement.textContent = "Player 2 Wins! 🎉";
+            } else {
+                resultElement.textContent = "It's a Tie! 🤝";
+            }
+        }
+
+        // Attach listener directly to avoid inline onclick reference issues
+        document.getElementById('rollBtn').addEventListener('click', rollDice);
+    </script>
 </body>
 </html>
